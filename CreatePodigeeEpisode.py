@@ -1,11 +1,10 @@
-import requests
 import json
+from ApiFunctions import get_latest_episodenumber
 
-api_token = ""
 
-with open("config.json") as json_file:
-    data = json.load(json_file)
-    api_token = data["token"]
+print(get_latest_episodenumber(9991))
+
+
 
 podcast_id = 9991
 contributor_id_albert = 186
@@ -23,12 +22,8 @@ show_notes_md = """
 """
 episode_cover = "https://images.podigee.com/800x,sx4dMZWhfErFlJffZaCMoqL2NUL6uRwbhM0dc8lImQEk=/https://cdn.podigee.com/uploads/u5976/6ec42bfe-d3b0-4d8c-b354-da0d2fceb2c4.png"
 #
-headers = {"Token": api_token, "Accept": "application/json", "Content-Type": "application/json"}
 payload = {"podcast_id": podcast_id, "title": "placeholder", "slug": "19", "description": description,
            "authors": authors, "copyright_text": copyright_text,
            "contributor_ids": [contributor_id_felix, contributor_id_albert], "show_notes_md": show_notes_md,
            "episode_cover": episode_cover}
 
-request = requests.post("https://app.podigee.com/api/v1/episodes", headers=headers, data=json.dumps(payload))
-
-print(request.status_code)

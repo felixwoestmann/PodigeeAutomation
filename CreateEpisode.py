@@ -20,10 +20,16 @@ for f in list_of_flac_files:
 podcast_id = 9991
 # Function calls are starting
 # Obtain Number of latest Episode and increment for new Episode
-episode_id = create_podcast_episode(
-    create_payload_for_episode_creation(9991, get_latest_episode_number(podcast_id) + 1))
+episode_creation_payload = create_payload_for_episode_creation(9991, get_latest_episode_number(podcast_id) + 1)
+episode_id = create_podcast_episode(episode_creation_payload)
+print("Created Episode")
+print("ID: " + str(episode_id))
 # Scan parameter path for FLAC files
 list_of_file_urls = []
 for flac_file in list_of_flac_files:
-    list_of_file_urls.append(upload_file(flac_file))
+    url = upload_file(flac_file)
+    list_of_file_urls.append(url)
+    print("Uploaded " + str(flac_file))
+    print("URL: " + str(url))
+
 create_production(episode_id, list_of_file_urls)

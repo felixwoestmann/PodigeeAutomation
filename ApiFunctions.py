@@ -31,7 +31,8 @@ def get_latest_episode_number(podcast_id):
 # TODO: Add ChapterMarks
 def create_podcast_episode(payload):
     request = requests.post(podigee_api_url + "episodes", headers=create_podigee_header(), data=json.dumps(payload))
-    return request.json()['episode_id']
+    print(request.json())
+    return request.json()['id']
 
 
 # Uploads the given file
@@ -57,5 +58,5 @@ def create_production(episode_id, file_urls):
         production_file = {"url": f}
         production_files.append(production_file)
         # TODO set contributor_id or custom_name
-    payload = {"episode_id": episode_id, "files": production_files}
+    payload = {"episode_id": episode_id, "files": production_files,"custom_name":"some_track"}
     request = requests.post(podigee_api_url + "productions", headers=create_podigee_header(), data=json.dumps(payload))

@@ -3,8 +3,8 @@ import json
 from pathlib import Path
 
 podigee_api_url = "https://app.podigee.com/api/v1/"
-contributor_id_albert = 186
-contributor_id_felix = 187
+contributor_id_albert = 1394
+contributor_id_felix = 1395
 
 
 # Loads the API token from a config.json file and returns it
@@ -32,7 +32,6 @@ def get_latest_episode_number(podcast_id):
 # Param: payload is a dictionary with all the data
 # Return: the episode_id of the created episode
 # Reference: https://app.podigee.com/api-docs#!/Episodes/create
-# TODO: Add ChapterMarks
 def create_podcast_episode(payload):
     request = requests.post(podigee_api_url + "episodes", headers=create_podigee_header(), data=json.dumps(payload))
     return request.json()['id']
@@ -59,12 +58,13 @@ def create_production(episode_id, file_urls):
     production_files = []
     for f in file_urls:
         production_file = {"url": f['url']}
-        if 'albert' in f['name'] or 'studiolink' in f['name']:
+        if 'albert' in str(f['name']).lower() or 'studiolink' in str(f['name']).lower():
             production_file['contributor_id'] = contributor_id_albert
-        if 'felix' in f['name']:
+        if 'felix' in str(f['name']).lower():
             production_file['contributor_id'] = contributor_id_felix
-        if 'soundboard' in f['name']:
+        if "contributor_id" not in production_file:
             production_file['custom_name'] = "Music"
         production_files.append(production_file)
-    payload = {"episode_id": episode_id, "files": production_files, "custom_name": "some_track"}
+    payload = {"episode_id": episode_id, "files": production_files}
+    print(json.dumps(payload))
     request = requests.post(podigee_api_url + "productions", headers=create_podigee_header(), data=json.dumps(payload))

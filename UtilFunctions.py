@@ -9,7 +9,7 @@ def create_payload_for_episode_creation(podcast_id, episode_number):
     copyright_text = "Felix Wöstmann, Albert Menacher"
     authors = copyright_text
     description = "Albert und Felix reden über "
-    episode_cover = "https://images.podigee.com/800x,sx4dMZWhfErFlJffZaCMoqL2NUL6uRwbhM0dc8lImQEk=/https://cdn.podigee.com/uploads/u5976/6ec42bfe-d3b0-4d8c-b354-da0d2fceb2c4.png"
+    episode_cover = "https://podigee.s3-eu-west-1.amazonaws.com/uploads/u5976/b46b3aa7-bdea-4ab4-99ba-7e94af4b1d7c.png"
     show_notes_md = """
 ###Shownotes
 
@@ -27,7 +27,7 @@ def create_payload_for_episode_creation(podcast_id, episode_number):
             "copyright_text": copyright_text,
             "contributor_ids": [contributor_id_felix, contributor_id_albert],
             "show_notes_md": show_notes_md,
-            "episode_cover": episode_cover,
+            "cover_image": episode_cover,
             "number": episode_number
             }
 

@@ -31,7 +31,6 @@ def get_latest_episode_number(podcast_id):
 # TODO: Add ChapterMarks
 def create_podcast_episode(payload):
     request = requests.post(podigee_api_url + "episodes", headers=create_podigee_header(), data=json.dumps(payload))
-    print(request.json())
     return request.json()['id']
 
 

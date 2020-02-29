@@ -1,5 +1,6 @@
 import glob
 import sys
+import os.path
 from ApiFunctions import get_latest_episode_number, create_podcast_episode, upload_file, create_production
 from UtilFunctions import create_payload_for_episode_creation, create_chapter_marks_from_file
 
@@ -40,11 +41,12 @@ print("Created Episode: " + user_genereated_episode_title)
 print("\tID: " + str(episode_id))
 
 # Scan parameter path for FLAC files
-print("Upload AudioFiles")
+print("Upload audio files")
 list_of_file_urls = []
 for flac_file in list_of_flac_files:
     url = upload_file(flac_file)
-    list_of_file_urls.append(url)
+    list_of_file_urls.append({"url": url,
+                              "name": os.path.basename(flac_file)})
     print("\tUploaded " + str(flac_file))
     print("\t\tURL: " + str(url))
 print("All files are uploaded")

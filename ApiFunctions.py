@@ -1,12 +1,16 @@
 import requests
 import json
+from pathlib import Path
 
 podigee_api_url = "https://app.podigee.com/api/v1/"
+contributor_id_albert = 186
+contributor_id_felix = 187
 
 
 # Loads the API token from a config.json file and returns it
 def load_apitoken():
-    with open("config.json") as json_file:
+    path = Path(__file__).parent / "config.json"
+    with open(path) as json_file:
         data = json.load(json_file)
         return data["token"]
 
@@ -54,8 +58,13 @@ def upload_file(filename):
 def create_production(episode_id, file_urls):
     production_files = []
     for f in file_urls:
-        production_file = {"url": f}
+        production_file = {"url": f['url']}
+        if 'albert' in f['name'] or 'studiolink' in f['name']:
+            production_file['contributor_id'] = contributor_id_albert
+        if 'felix' in f['name']:
+            production_file['contributor_id'] = contributor_id_felix
+        if 'soundboard' in f['name']:
+            production_file['custom_name'] = "Music"
         production_files.append(production_file)
-        # TODO set contributor_id or custom_name
-    payload = {"episode_id": episode_id, "files": production_files,"custom_name":"some_track"}
+    payload = {"episode_id": episode_id, "files": production_files, "custom_name": "some_track"}
     request = requests.post(podigee_api_url + "productions", headers=create_podigee_header(), data=json.dumps(payload))

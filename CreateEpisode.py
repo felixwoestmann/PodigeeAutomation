@@ -27,15 +27,18 @@ for f in list_of_flac_files:
 
 # Create chapter marks
 print("Search for Chaptermarks File " + chaptermark_filettype)
-chapter_mark_file = glob.glob(directory_path + "*." + chaptermark_filettype)[0]
-print("\tChapter marks found in file " + chapter_mark_file)
-chapter_marks = create_chapter_marks_from_file(chapter_mark_file)
-
+chapter_mark_file = glob.glob(directory_path + "*." + chaptermark_filettype)
+if len(chapter_mark_file) > 0:
+    print("\tChapter marks found in file " + chapter_mark_file)
+    chapter_marks = create_chapter_marks_from_file(chapter_mark_file[0])
+else:
+        print("Couldn't find Chaptermarks File")
 # Function calls are starting
 # Obtain Number of latest Episode and increment for new Episode
 episode_creation_payload = create_payload_for_episode_creation(9991, get_latest_episode_number(podcast_id) + 1)
 episode_creation_payload['title'] = user_genereated_episode_title
-episode_creation_payload['chapter_marks'] = chapter_marks
+if len(chapter_mark_file) > 0:
+    episode_creation_payload['chapter_marks'] = chapter_marks
 episode_id = create_podcast_episode(episode_creation_payload)
 print("Created Episode: " + user_genereated_episode_title)
 print("\tID: " + str(episode_id))

@@ -11,9 +11,10 @@ print("\n\n")
 
 # Exactly one argument is expected
 if len(sys.argv) != 2:
-    print("Parameter is not as expected.")
-    print("Script will shutodwn now")
+    print("Expected Directory as parameter")
+    print("Script will shutdown now")
     exit(-1)
+
 
 print("Try to create Podigee Podcast Episode for Directory")
 user_genereated_episode_title = input("Please enter title for episode:\n")
